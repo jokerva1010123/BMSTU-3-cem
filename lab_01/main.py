@@ -2,12 +2,6 @@ import math
 import openpyxl as xls
 import numpy as np
 
-def F(x):
-    '''
-        Функция, которую исслудуем по таблице.
-    '''
-    return (math.cos(x) - x)
-
 def parse_table():
     '''
         Загрузка таблицы в программу.
@@ -169,7 +163,6 @@ def main():
             ay = coords_y[x0 : xn + 1]
             if len(ax):
                 my_root = polinom(ax, ay, n + 1, x)
-                correct_root = F(x)
                 print("{:^12}|".format(round(my_root, 5)), end="") 
             
             # полином Эрмита
