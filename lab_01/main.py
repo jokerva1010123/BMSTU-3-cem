@@ -15,3 +15,5 @@ for i in range(total_point):
     data_x.append(data[i * 3])
     data_y.append(data[i * 3 + 1])
     data_y1.append(data[i * 3 + 2])
+
+
