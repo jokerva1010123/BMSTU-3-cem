@@ -179,14 +179,14 @@ def main():
             print("{:^12}|".format(round(my_root2, 5)), end="\n") 
 
     print("Обратная инерполяция с помощью полинома Ньютона\n",
-          "| n |  x  |  Корень  |")
+          "| n |  x  |  Корень   |")
 
     for n in arr_n:  
         print(" | {} |  {}  |".format(n, 0), end="")
         flag = False
         for i in range(0, len(data)):
             if 0 == data[i][1]:
-                print("Заданное значение Х есть в таблце, F(x) = ", data[i][0], sep="")
+                print("{:^11}|".format(data[i][0]))
                 flag = True
         if not flag:
             n_data = []
@@ -203,8 +203,7 @@ def main():
             ay = coords_y[x0 : xn + 1]
             if len(ax):
                 my_root = polinom(ax, ay, n + 1, 0)
-                correct_root = F(0)
-                print("  {} |".format(round(my_root, 5))) 
+                print("  {}  |".format(round(my_root, 5))) 
 
 if __name__ == "__main__":
     main()
