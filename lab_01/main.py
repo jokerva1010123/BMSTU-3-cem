@@ -1,6 +1,4 @@
 import math
-import openpyxl as xls
-import numpy as np
 
 def parse_table():
     '''
@@ -24,7 +22,6 @@ def parse_table():
         arr_y.append(table[i][1])
     return table, arr_x, arr_y
 
-
 def input_x():
     '''
         Ввод аргумента. (в случае ошибки дается еще попытка)
@@ -41,13 +38,11 @@ def input_x():
             print("Some error! Try again")
     return float(x)
 
-
 def find_x0_xn(data, power, arg):
     '''
         Нахождение начального и конечного индекса в таблице (x0 и xn).
     '''
     index_x = 0
-    
     while arg > data[index_x][0]:
         index_x += 1
     index_x0 = index_x - power // 2 - 1
@@ -95,13 +90,14 @@ def polinom(x, y, node, arg):
         i += 1
     return y 
 
-
 def hermit_interpolate(data, node, arg, coords_x):
     x0, xn = find_x0_xn(data, node // 2, arg)
     data = data[x0 : xn + 1]
     pol = []
+    if node == 0:
+        return pol, x0
     for i in range(2 * len(data)):
-        pol.append([0] * (2 * node + 1))
+        pol.append([0] * (node + 2))
     i = 0
     for j in range(len(data)):
         pol[i][0] = data[j][0]
@@ -126,8 +122,7 @@ def hermit_interpolate(data, node, arg, coords_x):
             j += 1
         i += 1
         new_node -= 1
-    return pol, coords_x[x0 : xn + 1]
-
+    return pol, x0
 
 def result_polynomial(pol, node, arg): #here is function to calculate value for given x
     y = pol[0][1]
@@ -146,7 +141,7 @@ def result_polynomial(pol, node, arg): #here is function to calculate value for 
 def main():
     data, coords_x, coords_y = parse_table()
     x = input_x()
-    arr_n = [1, 2, 3, 4]
+    arr_n = [1, 2, 3, 4, 5]
 
     print("Интерполяция с помощью полинома Ньютона и Эрмита\n",
           "| n |   x   |  Ньютона   |   Эрмита   |")
@@ -166,13 +161,17 @@ def main():
                 print("{:^12}|".format(round(my_root, 5)), end="") 
             
             # полином Эрмита
-            pol, X = hermit_interpolate(data, n, x, coords_x)
-            my_root2 = result_polynomial(pol, n, x)
+            pol, x0 = hermit_interpolate(data, n, x, coords_x)
+            my_root2 = 0
+            if not n:
+                my_root2 = data[x0][1]
+            else:
+                my_root2 = result_polynomial(pol, n, x)
 
             print("{:^12}|".format(round(my_root2, 5)), end="\n") 
 
     print("Обратная инерполяция с помощью полинома Ньютона\n",
-          "| n |  x  |  Корень   |")
+          "| n |  y  |  Корень   |")
 
     for n in arr_n:  
         print(" | {} |  {}  |".format(n, 0), end="")
