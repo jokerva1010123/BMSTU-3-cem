@@ -142,10 +142,38 @@ def main():
     data, coords_x, coords_y = parse_table()
     x = input_x()
     arr_n = [1, 2, 3, 4, 5]
-
+    try:
+        n = int(input("Enter n: "))
+    except:
+        print("Error")
+    if n < 0: 
+        print("Error")
     print("Интерполяция с помощью полинома Ньютона и Эрмита\n",
           "| n |   x   |  Ньютона   |   Эрмита   |")
-    for n in arr_n:
+    print(" |{:^3}|{:^7}|".format(n, round(x, 4)), end="")
+    flag = False
+    for i in range(0, len(data)):
+        if x == data[i][0]:
+            print("{:^12}|{:^12}|".format(round(data[i][1], 5), round(data[i][1], 5))) 
+            flag = True
+    if not flag:
+        x0, xn = find_x0_xn(data, n, x)
+        ax = coords_x[x0 : xn + 1]
+        ay = coords_y[x0 : xn + 1]
+        if len(ax):
+            my_root = polinom(ax, ay, n + 1, x)
+            print("{:^12}|".format(round(my_root, 5)), end="") 
+        
+        # полином Эрмита
+        pol, x0 = hermit_interpolate(data, n, x, coords_x)
+        my_root2 = 0
+        if not n:
+            my_root2 = data[x0][1]
+        else:
+            my_root2 = result_polynomial(pol, n, x)
+
+        print("{:^12}|".format(round(my_root2, 5)), end="\n") 
+    '''for n in arr_n:
         print(" |{:^3}|{:^7}|".format(n, round(x, 4)), end="")
         flag = False
         for i in range(0, len(data)):
@@ -168,12 +196,34 @@ def main():
             else:
                 my_root2 = result_polynomial(pol, n, x)
 
-            print("{:^12}|".format(round(my_root2, 5)), end="\n") 
+            print("{:^12}|".format(round(my_root2, 5)), end="\n") '''
 
     print("Обратная инерполяция с помощью полинома Ньютона\n",
           "| n |  y  |  Корень   |")
+    print(" | {} |  {}  |".format(n, 0), end="")
+    flag = False
+    for i in range(0, len(data)):
+        if 0 == data[i][1]:
+            print("{:^11}|".format(data[i][0]))
+            flag = True
+    if not flag:
+        n_data = []
+        for i in range(len(data)):
+            n_data.append([data[i][1], data[i][0], data[i][2]])
+        n_data.sort()
+        coords_y.clear()
+        coords_x.clear()
+        for i in range(len(n_data)):
+            coords_x.append(n_data[i][0])
+            coords_y.append(n_data[i][1])
+        x0, xn = find_x0_xn(n_data, n, 0)
+        ax = coords_x[x0 : xn + 1]
+        ay = coords_y[x0 : xn + 1]
+        if len(ax):
+            my_root = polinom(ax, ay, n + 1, 0)
+            print("  {}  |".format(round(my_root, 5)))
 
-    for n in arr_n:  
+    ''' for n in arr_n:  
         print(" | {} |  {}  |".format(n, 0), end="")
         flag = False
         for i in range(0, len(data)):
@@ -195,7 +245,7 @@ def main():
             ay = coords_y[x0 : xn + 1]
             if len(ax):
                 my_root = polinom(ax, ay, n + 1, 0)
-                print("  {}  |".format(round(my_root, 5))) 
+                print("  {}  |".format(round(my_root, 5))) '''
 
 if __name__ == "__main__":
     main()
