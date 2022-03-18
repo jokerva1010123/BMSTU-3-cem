@@ -162,7 +162,7 @@ def main():
 
     print("\n|  nx  |  ny  |  nz  |   x   |   y   |   z   |  Found  |")
     for n in arr_n:
-        found_y = multid_interp(z, x, y, n, n, arg_x, arg_y) + arg_z**2
+        found_y = multid_interp(z, x, y, n, n, arg_x, arg_y) + int(z) **2 if n == 0 else arg_z**2
         
         print("|   %d  |   %d  |   %d  |  %.2f |  %.2f |  %.2f | %.5f |" \
             % (n, n, n, arg_x, arg_y, arg_z, found_y))
