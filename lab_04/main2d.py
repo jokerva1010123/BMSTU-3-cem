@@ -130,11 +130,7 @@ if __name__ == "__main__":
 
     for j in range(len(degrees)):
         slae_matrix = find_slae_matrix(points, degrees[j])
-        for i in range(len(slae_matrix)):
-            print(slae_matrix[i])
         coeffs = get_polynomial_coefficients(slae_matrix)
-        print(*slae_matrix)
-        print(coeffs)
         add_plot(coeffs, f"n = {degrees[j]}",
                  points[0].x, points[-1].x)
 
