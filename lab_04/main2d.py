@@ -120,7 +120,7 @@ if __name__ == "__main__":
     # filenames = input("Enter filenames: ").split()
     # label = input("Enter labels: ").split(',')
 
-    filename = 'input2d1.txt'
+    filename = input('Input filename: ')
     degrees = list(map(int, input("Enter polynomial degree: ").split()))
 
     points = read_from_file(filename)

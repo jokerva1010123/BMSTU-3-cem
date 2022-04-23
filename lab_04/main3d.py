@@ -156,7 +156,7 @@ if __name__ == "__main__":
     # filenames = input("Enter filenames: ").split()
     # label = input("Enter labels: ").split(',')
 
-    filename = 'input3d1.txt'
+    filename = input('Input filename:')
     degrees = int(input("Enter polynomial degree: "))
 
     points = read_from_file(filename)
